@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food in Forest | Fresh Food. Wild Surroundings. Unforgettable Taste.</title>
+  <meta name="description" content="Experience gourmet forest dining at Food in Forest Eco-Resort & Bistro. Woodfire clay pot cookery, organic wild herbs, and authentic mountain delicacies.">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div id="loading-spinner" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand" id="brand-logo-link">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="menu.html" class="nav-link">Explore Menu</a></li>
+        <li><a href="#special-offers" class="nav-link">Special Offers</a></li>
+        <li><a href="#about" class="nav-link">About Us</a></li>
+        <li><a href="#contact" class="nav-link">Contact & Location</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn" aria-label="Shopping Cart" id="nav-cart-btn">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+
+        <div id="nav-auth-container">
+          <a href="login.html" class="btn btn-outline-forest btn-sm">Sign In</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        </div>
+
+        <button class="mobile-nav-toggle" id="mobile-drawer-toggle" aria-label="Open menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Navigation -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="nav-brand">
+        <span>🌲</span>
+        <span class="hotel-dyn-name">Food in Forest</span>
+      </div>
+      <button class="mobile-drawer-close" id="mobile-drawer-close">&times;</button>
+    </div>
+
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-nav-link active">Home</a></li>
+      <li><a href="menu.html" class="mobile-nav-link">Explore Menu</a></li>
+      <li><a href="cart.html" class="mobile-nav-link">My Cart (<span id="mobile-cart-count-badge">0</span>)</a></li>
+      <li><a href="#about" class="mobile-nav-link">About Forest Resort</a></li>
+      <li><a href="#contact" class="mobile-nav-link">Contact & Hours</a></li>
+    </ul>
+
+    <div class="mobile-nav-auth" id="mobile-nav-auth">
+      <div class="mobile-guest-links">
+        <a href="login.html" class="btn btn-outline-forest btn-block">Sign In</a>
+        <a href="register.html" class="btn btn-primary btn-block">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80');">
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-tagline-badge">
+          <span>🌿</span> Eco-Luxury Woodland Dining & Bistro
+        </div>
+        <h1 class="hero-title">Fresh Food. Wild Surroundings. Unforgettable Taste.</h1>
+        <p class="hero-subtitle hotel-dyn-tagline">
+          Handcrafted slow-cooked mountain delicacies, clay-pot stews, and wild herb feasts prepared under the canopy of pine woods.
+        </p>
+        <div class="hero-actions">
+          <a href="menu.html" class="btn btn-secondary btn-lg">Explore Menu 🍂</a>
+          <a href="menu.html?featured=true" class="btn btn-primary btn-lg">Order Signature Dishes 🥘</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section section-about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image-wrap">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80" alt="Food in Forest Resort Ambience" class="about-img">
+          <div class="about-badge-floating">
+            <strong>100% Organic</strong>
+            <span>Ethically Harvested Herbs</span>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <div class="section-pretitle">The Story Behind The Flavours</div>
+          <h2 class="section-title">Where Ancient Nature Meets Gourmet Dining</h2>
+          <p class="hotel-dyn-about-text">
+            At Food in Forest, dining is not merely a meal; it is a serene ritual. Every dish tells the story of the ancient woodlands — prepared over slow-burning woodfire, infused with wild native herbs, and presented with earthy elegance.
+          </p>
+          
+          <div class="about-features-list">
+            <div class="feature-mini-card">
+              <h4>🔥 Woodfire Embers</h4>
+              <p>Slow-cooked in earthen handis for genuine rustic smoky aroma.</p>
+            </div>
+            <div class="feature-mini-card">
+              <h4>🍃 Wild Mountain Herbs</h4>
+              <p>Freshly handpicked lemongrass, holy basil, and Tellicherry peppers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Food Categories Section -->
+  <section class="section section-categories" style="background-color: var(--color-cream-surface);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pretitle">Curated Forest Menus</div>
+        <h2 class="section-title">Explore By Food Categories</h2>
+        <p class="section-desc">From invigorating morning broths to hearty clay-pot curries and woodland desserts.</p>
+      </div>
+
+      <div class="categories-grid" id="landing-categories-grid">
+        <!-- Loaded dynamically from Firebase -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Signature Foods -->
+  <section class="section section-featured">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pretitle">Master Chef's Selection</div>
+        <h2 class="section-title">Featured Forest Specialties</h2>
+        <p class="section-desc">Our most cherished and slow-smoked preparations loved by travelers and resort guests.</p>
+      </div>
+
+      <div class="foods-grid" id="featured-foods-grid">
+        <!-- Loaded dynamically from Firebase -->
+      </div>
+
+      <div class="text-center" style="margin-top: 3.5rem;">
+        <a href="menu.html" class="btn btn-primary btn-lg">View Full Forest Menu &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Offers & Promo Codes -->
+  <section class="section section-offers" id="special-offers" style="background-color: var(--color-cream-surface);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pretitle">Exclusive Retreat Deals</div>
+        <h2 class="section-title">Special Offers & Promo Codes</h2>
+        <p class="section-desc">Apply these promo vouchers at checkout for delightful savings on your forest feasts.</p>
+      </div>
+
+      <div class="offers-grid" id="special-offers-grid">
+        <!-- Loaded dynamically from Firebase -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="section section-why">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pretitle">The Forest Difference</div>
+        <h2 class="section-title">Why Food in Forest?</h2>
+        <p class="section-desc">We respect culinary heritage and celebrate purest ingredients straight from nature.</p>
+      </div>
+
+      <div class="why-us-grid">
+        <div class="why-card">
+          <div class="why-icon">🏺</div>
+          <h3>Clay Pot Cookery</h3>
+          <p>Slowly simmered in earthenware to preserve natural mineral sweetness and nutrition.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🌱</div>
+          <h3>Zero Additives</h3>
+          <p>No chemical preservatives, artificial food coloring, or MSG. Pure cold-pressed oils.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🎋</div>
+          <h3>Bamboo Steaming</h3>
+          <p>Traditional tribal smoking and steaming techniques inside hollow green bamboo stalks.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">⚡</div>
+          <h3>Freshly Made to Order</h3>
+          <p>Every dish is crafted right after ordering to guarantee piping hot woodland perfection.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hotel & Restaurant Details -->
+  <section class="section section-hotel-info" id="contact" style="background-color: var(--color-cream-surface);">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-content">
+          <div class="section-pretitle">Visit Our Woodland Bistro</div>
+          <h2 class="section-title hotel-dyn-name">Food in Forest Eco-Resort & Bistro</h2>
+          <p class="hotel-dyn-about-text">
+            Join us for dining under the majestic pine trees, or order your favorite preparations delivered right to your forest cottage or porch.
+          </p>
+
+          <div style="margin-top: 1.5rem;">
+            <p><strong>📍 Address:</strong> <span class="hotel-dyn-address">Woodland Trail, Block 4, Silent Valley Ridge, Nilgiris - 643001</span></p>
+            <p><strong>📞 Reservations & Enquiries:</strong> <a href="#" class="hotel-dyn-phone">+91 98450 12345</a></p>
+            <p><strong>✉️ Email:</strong> <a href="#" class="hotel-dyn-email">contact@foodinforest.com</a></p>
+            <p><strong>⏰ Dining Hours:</strong> <span class="hotel-dyn-hours">07:30 AM - 10:30 PM</span></p>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <a href="menu.html" class="btn btn-primary">Order Online Now</a>
+          </div>
+        </div>
+
+        <div class="about-image-wrap">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80" alt="Resort Dining" class="about-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Testimonials -->
+  <section class="section section-testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pretitle">Guest Reflections</div>
+        <h2 class="section-title">What Our Guests Say</h2>
+        <p class="section-desc">Stories of unforgettable dining amidst quiet woodland whispers.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="testimonial-text">“The Smoked Bamboo Chicken was an epiphany! Eating hot clay-pot biryani while listening to forest breezes is an experience everyone should have.”</p>
+          <div class="testimonial-author">
+            <strong>Vikram & Ananya Sengupta</strong>
+            <small>Bangalore, India</small>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="testimonial-text">“The Wild Mushroom Pepper Fry and Honey Oat Pancakes made our weekend getaway truly memorable. Fast online ordering right to our wooden cottage!”</p>
+          <div class="testimonial-author">
+            <strong>Rohit Varma</strong>
+            <small>Chennai, India</small>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="testimonial-text">“Clean, pure, natural flavours. You can taste the genuine forest herbs and slow woodfire cookery. An exemplary restaurant.”</p>
+          <div class="testimonial-author">
+            <strong>Kavita Menon</strong>
+            <small>Kochi, India</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/foods.js"></script>
+
+  <!-- Mobile Drawer Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('mobile-drawer-toggle');
+      const drawer = document.getElementById('mobile-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      const closeBtn = document.getElementById('mobile-drawer-close');
+
+      if (toggle && drawer && overlay) {
+        toggle.addEventListener('click', () => {
+          drawer.classList.add('drawer-open');
+          overlay.classList.add('show');
+        });
+      }
+
+      const closeDrawer = () => {
+        drawer?.classList.remove('drawer-open');
+        overlay?.classList.remove('show');
+      };
+
+      closeBtn?.addEventListener('click', closeDrawer);
+      overlay?.addEventListener('click', closeDrawer);
+    });
+  </script>
+</body>
+</html>

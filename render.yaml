@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: food-in-forest-backend
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn backend.app:app"
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: FLASK_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: FIREBASE_DATABASE_URL
+        value: "https://food-in-forest-default-rtdb.firebaseio.com"
+      - key: SECRET_KEY
+        generateValue: true

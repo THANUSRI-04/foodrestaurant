@@ -1,0 +1,35 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "hotels": {
+      ".read": true,
+      ".write": true
+    },
+    "categories": {
+      ".read": true,
+      ".write": true
+    },
+    "foods": {
+      ".read": true,
+      ".write": true
+    },
+    "offers": {
+      ".read": true,
+      ".write": true
+    },
+    "users": {
+      ".read": true,
+      ".write": true
+    },
+    "orders": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["userId", "createdAt", "orderStatus"]
+    },
+    "settings": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

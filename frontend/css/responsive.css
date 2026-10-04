@@ -1,0 +1,280 @@
+/**
+ * Food in Forest - Responsive Styling & Mobile Drawer Navigation
+ * Ensures seamless layouts across 320px, 375px, 768px, 1024px, and 1440px breakpoints.
+ */
+
+/* Mobile Hamburger Toggle */
+.mobile-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--color-forest-dark);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Mobile Navigation Drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 2000;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-drawer.drawer-open {
+  right: 0;
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-cream-border);
+}
+
+.mobile-drawer-close {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-forest-dark);
+}
+
+.mobile-nav-link.active {
+  color: var(--color-gold-accent);
+}
+
+.mobile-nav-auth {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-cream-border);
+}
+
+.mobile-guest-links, .mobile-user-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.mobile-user-info p {
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 39, 26, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===================================================
+   RESPONSIVE BREAKPOINTS
+   =================================================== */
+
+/* 1024px & Below (Laptops / Tablets in Landscape) */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .about-img {
+    height: 380px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .cart-layout,
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .food-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* 768px & Below (Tablets & Large Phones) */
+@media (max-width: 768px) {
+  .nav-links,
+  #nav-auth-container {
+    display: none;
+  }
+
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  .hero-section {
+    min-height: 70vh;
+    padding: 3.5rem 0;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+  }
+
+  .foods-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .order-details-grid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .order-success-card {
+    padding: 2rem 1.2rem;
+  }
+
+  .order-status-tracker {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+
+  .tracker-step {
+    flex: 0 0 30%;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-features-list {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+  }
+
+  .cart-item-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .food-detail-image-box {
+    height: 320px;
+  }
+
+  .food-detail-order-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .food-detail-order-actions .btn {
+    width: 100%;
+  }
+}
+
+/* 375px & 320px (Compact Mobile Phones) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .hero-title {
+    font-size: 1.85rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .auth-card {
+    padding: 2rem 1.2rem;
+  }
+
+  .cart-table th,
+  .cart-table td {
+    padding: 0.8rem 0.5rem;
+    font-size: 0.82rem;
+  }
+
+  .cart-item-thumb {
+    width: 48px;
+    height: 48px;
+  }
+
+  .toast-item {
+    min-width: calc(100vw - 2rem);
+    margin: 0 1rem;
+  }
+
+  .toast-container {
+    right: 0;
+    left: 0;
+    bottom: 1rem;
+  }
+}

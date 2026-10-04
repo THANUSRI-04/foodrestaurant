@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Food Item | Food in Forest Admin</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="admin-body">
+
+  <div id="loading-spinner" class="loading-overlay"><div class="spinner"></div></div>
+  <div class="admin-sidebar-overlay" id="admin-sidebar-overlay"></div>
+
+  <div class="admin-wrapper">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <a href="dashboard.html" class="admin-brand">
+          <svg class="brand-logo-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m8 14 4-8 4 8H8z"/>
+            <path d="m5 18 7-8 7 8H5z"/>
+            <path d="M12 18v4"/>
+          </svg>
+          <span>Food in Forest</span>
+        </a>
+        <span class="admin-badge-label">Admin</span>
+      </div>
+
+      <ul class="admin-nav">
+        <li class="admin-nav-item">
+          <a href="dashboard.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="7" height="9" x="3" y="3" rx="1"/>
+              <rect width="7" height="5" x="14" y="3" rx="1"/>
+              <rect width="7" height="9" x="14" y="12" rx="1"/>
+              <rect width="7" height="5" x="3" y="16" rx="1"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="foods.html" class="admin-nav-link active">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
+              <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3"/>
+              <path d="m2.1 21.9 6.4-6.4"/>
+              <path d="m19 5-7 7"/>
+            </svg>
+            <span>Food Items</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="add-food.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v8"/>
+              <path d="M8 12h8"/>
+            </svg>
+            <span>Add Food</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="categories.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+              <path d="m22 12.5-8.58 3.91a2 2 0 0 1-1.66 0L2 12.5"/>
+              <path d="m22 17.5-8.58 3.91a2 2 0 0 1-1.66 0L2 17.5"/>
+            </svg>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="orders.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+              <path d="M3 6h18"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span>Orders</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="customers.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="hotel-profile.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+              <path d="M6 12H4a2 2 0 0 0-2 2v8h4"/>
+              <path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/>
+              <path d="M10 6h4"/>
+              <path d="M10 10h4"/>
+              <path d="M10 14h4"/>
+              <path d="M10 18h4"/>
+            </svg>
+            <span>Hotel Profile</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="offers.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+              <path d="M7 7h.01"/>
+            </svg>
+            <span>Offers &amp; Deals</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="settings.html" class="admin-nav-link">
+            <svg class="admin-nav-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <span>Settings &amp; Seed</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <a href="../index.html" class="admin-sidebar-btn btn-sidebar-view">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+            <path d="M2 12h20"/>
+          </svg>
+          <span>View Guest Site</span>
+        </a>
+        <button class="admin-sidebar-btn btn-sidebar-logout btn-logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" x2="9" y1="12" y2="12"/>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="admin-header-left">
+          <button id="admin-sidebar-toggle" class="admin-toggle-btn" aria-label="Toggle Navigation Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" x2="20" y1="12" y2="12"/>
+              <line x1="4" x2="20" y1="6" y2="6"/>
+              <line x1="4" x2="20" y1="18" y2="18"/>
+            </svg>
+          </button>
+          <h1 class="admin-header-title">Modify Delicacy Details</h1>
+        </div>
+        <div class="admin-header-actions">
+          <a href="foods.html" class="btn btn-outline-forest btn-sm">&larr; Back to Food List</a>
+          <div class="admin-user-pill">
+            <span class="admin-user-avatar">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <span id="admin-user-display">Hotel Admin</span>
+            <span class="admin-role-tag">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="admin-content-body">
+        
+        <div class="admin-card admin-card-centered">
+          <form id="edit-food-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="food-name">Dish Name *</label>
+                <input type="text" id="food-name" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="food-category">Category *</label>
+                <select id="food-category" class="form-control" required>
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="food-price">Price (₹ INR) *</label>
+                <input type="number" id="food-price" class="form-control" min="0" step="1" required>
+              </div>
+
+              <div class="form-group">
+                <label for="food-prep-time">Preparation Time (Minutes)</label>
+                <input type="number" id="food-prep-time" class="form-control" min="1" max="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="food-description">Detailed Description *</label>
+              <textarea id="food-description" class="form-control" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="food-ingredients">Key Ingredients (Comma separated)</label>
+              <input type="text" id="food-ingredients" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Dish Photo (Choose from Device / Gallery or enter Web URL)</label>
+              <div id="food-image-picker"></div>
+              <small class="text-muted" style="display: block; margin-top: 0.35rem;">Select an image file from your device or specify a photo URL.</small>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="food-veg">Diet Classification *</label>
+                <select id="food-veg" class="form-control">
+                  <option value="true">🟢 Vegetarian (Veg)</option>
+                  <option value="false">🔴 Non-Vegetarian (Non-Veg)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="food-spice-level">Spice Level Rating</label>
+                <select id="food-spice-level" class="form-control">
+                  <option value="Mild">Mild</option>
+                  <option value="Medium Hot">Medium Hot</option>
+                  <option value="Hot">Hot / Fiery</option>
+                  <option value="Sweet">Sweet / Dessert</option>
+                  <option value="Tangy">Tangy</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1.5rem 0; padding: 1.2rem; background: var(--admin-bg); border-radius: var(--radius-md);">
+              <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="food-spicy">
+                <span>Spicy Dish</span>
+              </label>
+
+              <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="food-available">
+                <span>Available for Orders (In Stock)</span>
+              </label>
+
+              <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="food-featured">
+                <span>Signature Dish (Featured)</span>
+              </label>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+              <button type="submit" class="btn btn-primary btn-lg" style="min-width: 140px;">
+                Save
+              </button>
+              <a href="foods.html" class="btn btn-outline-forest">Cancel</a>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="../js/firebase-config.js"></script>
+  <script src="../js/notifications.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/firebase.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

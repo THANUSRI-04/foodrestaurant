@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="menu.html" class="nav-link">Menu</a></li>
+        <li><a href="cart.html" class="nav-link">Cart</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+        <div id="nav-auth-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Checkout Header -->
+  <section style="background: var(--color-cream-surface); padding: 2.5rem 0; border-bottom: 1px solid var(--color-cream-border);">
+    <div class="container">
+      <h1>Cottage &amp; Dining Checkout</h1>
+      <p>Enter your delivery details to transmit your order to our woodland kitchen.</p>
+    </div>
+  </section>
+
+  <!-- Checkout Section -->
+  <section class="section" style="padding: 3rem 0 6rem 0;">
+    <div class="container">
+      <div class="checkout-layout">
+        
+        <!-- Left: Customer Information Form -->
+        <div class="checkout-form-card">
+          <h2 style="font-size: 1.45rem; margin-bottom: 1.5rem;">Customer &amp; Delivery Details</h2>
+          
+          <form id="checkout-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cust-name">Full Name *</label>
+                <input type="text" id="cust-name" class="form-control" placeholder="e.g. Aarav Sharma" required>
+              </div>
+              <div class="form-group">
+                <label for="cust-phone">Phone Number *</label>
+                <input type="tel" id="cust-phone" class="form-control" placeholder="e.g. 9876543210" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cust-email">Email Address *</label>
+              <input type="email" id="cust-email" class="form-control" placeholder="e.g. name@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cust-address">Delivery Address / Cottage No. / Table *</label>
+              <textarea id="cust-address" class="form-control" rows="3" placeholder="e.g. Cottage #14, Pine Valley Ridge, Nilgiris" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="cust-city">City / Region</label>
+              <input type="text" id="cust-city" class="form-control" value="Nilgiris">
+            </div>
+
+            <div class="form-group">
+              <label for="cust-instructions">Chef / Special Preparation Instructions (Optional)</label>
+              <textarea id="cust-instructions" class="form-control" rows="2" placeholder="e.g. Medium spice, serve with extra mint leaves, ring doorbell on arrival."></textarea>
+            </div>
+
+            <div style="background: var(--color-cream-surface); padding: 1.2rem; border-radius: var(--radius-md); border: 1px solid var(--color-cream-border); margin: 1.5rem 0;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 0.3rem;">💳 Payment Method</h4>
+              <p style="font-size: 0.88rem; color: var(--color-forest-dark);">
+                <strong>Cash on Delivery / Pay at Restaurant</strong> (Pay with cash or UPI on delivery)
+              </p>
+            </div>
+
+            <button type="submit" id="place-order-btn" class="btn btn-primary btn-block btn-lg">
+              Place Order (Cash on Delivery) &rarr;
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Summary Box -->
+        <div id="checkout-summary-container">
+          <!-- Rendered dynamically by cart.js -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>

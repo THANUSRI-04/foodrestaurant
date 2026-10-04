@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div id="loading-spinner" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="menu.html" class="nav-link">Menu</a></li>
+        <li><a href="orders.html" class="nav-link active">My Orders</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+        <div id="nav-auth-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Orders Header -->
+  <section style="background: var(--color-cream-surface); padding: 2.5rem 0; border-bottom: 1px solid var(--color-cream-border);">
+    <div class="container">
+      <h1>My Dining &amp; Delivery Orders</h1>
+      <p>Track your ongoing meals and view history of past culinary orders.</p>
+    </div>
+  </section>
+
+  <!-- Orders List Section -->
+  <section class="section" style="padding: 3rem 0 6rem 0;">
+    <div class="container">
+      <!-- Container populated dynamically by orders.js -->
+      <div id="customer-orders-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>

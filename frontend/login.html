@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Sign In | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body style="background: var(--color-cream-surface);">
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-outline-forest btn-sm">&larr; Return Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Card Section -->
+  <div class="auth-page-wrapper">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🌿</div>
+        <h2>Guest Sign In</h2>
+        <p>Access your past orders, delivery addresses, and personalized forest dining.</p>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" data-target="login-password" title="Show/Hide password" aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+          Sign In
+        </button>
+      </form>
+
+      <div class="auth-footer-links">
+        <p>New to Food in Forest? <a href="register.html" style="font-weight: 600; color: var(--color-forest-primary);">Create an Account</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

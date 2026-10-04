@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="menu.html" class="nav-link">Explore Menu</a></li>
+        <li><a href="index.html#special-offers" class="nav-link">Offers</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn active" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+
+        <div id="nav-auth-container"></div>
+        <button class="mobile-nav-toggle" id="mobile-drawer-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="nav-brand"><span>🌲</span> <span class="hotel-dyn-name">Food in Forest</span></div>
+      <button class="mobile-drawer-close" id="mobile-drawer-close">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li><a href="menu.html" class="mobile-nav-link">Explore Menu</a></li>
+      <li><a href="cart.html" class="mobile-nav-link active">My Cart</a></li>
+    </ul>
+    <div class="mobile-nav-auth" id="mobile-nav-auth"></div>
+  </div>
+
+  <!-- Cart Header -->
+  <section style="background: var(--color-cream-surface); padding: 2.5rem 0; border-bottom: 1px solid var(--color-cream-border);">
+    <div class="container">
+      <h1>Your Forest Dining Cart</h1>
+      <p>Review your selected delicacies before proceeding to cottage checkout.</p>
+    </div>
+  </section>
+
+  <!-- Main Cart Section -->
+  <section class="section" style="padding: 3rem 0 6rem 0;">
+    <div class="container">
+      
+      <!-- Empty Cart State -->
+      <div id="cart-empty-state" class="empty-state" style="display: none;">
+        <div class="empty-icon">🍃</div>
+        <h2>Your Cart is Currently Empty</h2>
+        <p>No delicacies added yet. Discover our fresh mountain curries and smoked bamboo specialties.</p>
+        <a href="menu.html" class="btn btn-primary btn-lg">Explore Menu &amp; Add Food</a>
+      </div>
+
+      <!-- Active Cart Layout -->
+      <div class="cart-layout" id="active-cart-wrapper">
+        <!-- Left: Items list container -->
+        <div id="cart-items-container">
+          <!-- Rendered dynamically by cart.js -->
+        </div>
+
+        <!-- Right: Order Summary Section -->
+        <div id="cart-summary-section" class="summary-box">
+          <h3>Bill Summary</h3>
+          
+          <div class="summary-line">
+            <span>Item Subtotal:</span>
+            <strong id="cart-subtotal-val">₹0</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Delivery Fee:</span>
+            <span id="cart-delivery-val">₹40</span>
+          </div>
+          <small class="text-muted" style="display: block; margin-top: -0.4rem; margin-bottom: 0.8rem;">
+            🌱 Free delivery on orders above ₹500
+          </small>
+
+          <div class="summary-line">
+            <span>Discount:</span>
+            <strong id="cart-discount-val" class="text-success">₹0</strong>
+          </div>
+
+          <div id="applied-promo-info"></div>
+
+          <!-- Promo code form -->
+          <form id="promo-form" class="promo-form-group">
+            <input type="text" id="promo-input" class="form-control" placeholder="Enter Promo Code (e.g. FOREST10)" style="text-transform: uppercase;">
+            <button type="submit" class="btn btn-secondary btn-sm">Apply</button>
+          </form>
+
+          <hr class="summary-divider">
+
+          <div class="summary-line total-line">
+            <strong>Estimated Total:</strong>
+            <strong id="cart-total-val" class="total-price">₹0</strong>
+          </div>
+
+          <div style="margin-top: 1.8rem;">
+            <a href="checkout.html" id="btn-proceed-checkout" class="btn btn-primary btn-block btn-lg">
+              Proceed to Checkout &rarr;
+            </a>
+            <div class="text-center" style="margin-top: 0.8rem;">
+              <a href="menu.html" style="font-size: 0.88rem; color: var(--color-text-muted);">+ Add More Dishes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('mobile-drawer-toggle');
+      const drawer = document.getElementById('mobile-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      const closeBtn = document.getElementById('mobile-drawer-close');
+
+      if (toggle && drawer && overlay) {
+        toggle.addEventListener('click', () => {
+          drawer.classList.add('drawer-open');
+          overlay.classList.add('show');
+        });
+      }
+      const closeDrawer = () => {
+        drawer?.classList.remove('drawer-open');
+        overlay?.classList.remove('show');
+      };
+      closeBtn?.addEventListener('click', closeDrawer);
+      overlay?.addEventListener('click', closeDrawer);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Details | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div id="loading-spinner" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="menu.html" class="nav-link active">Explore Menu</a></li>
+        <li><a href="index.html#special-offers" class="nav-link">Offers</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+
+        <div id="nav-auth-container"></div>
+        <button class="mobile-nav-toggle" id="mobile-drawer-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="nav-brand"><span>🌲</span> <span class="hotel-dyn-name">Food in Forest</span></div>
+      <button class="mobile-drawer-close" id="mobile-drawer-close">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li><a href="menu.html" class="mobile-nav-link active">Explore Menu</a></li>
+      <li><a href="cart.html" class="mobile-nav-link">My Cart (<span id="mobile-cart-count-badge">0</span>)</a></li>
+    </ul>
+    <div class="mobile-nav-auth" id="mobile-nav-auth"></div>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div style="background: var(--color-cream-surface); padding: 1rem 0; border-bottom: 1px solid var(--color-cream-border);">
+    <div class="container">
+      <p style="font-size: 0.9rem;">
+        <a href="index.html">Home</a> &nbsp;/&nbsp; 
+        <a href="menu.html">Menu</a> &nbsp;/&nbsp; 
+        <span style="color: var(--color-forest-primary); font-weight: 600;">Food Details</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Details Section -->
+  <section class="section" style="padding: 3.5rem 0;">
+    <div class="container">
+      <!-- Container populated dynamically by foods.js -->
+      <div id="food-detail-container"></div>
+
+      <!-- Recommended with this section -->
+      <div style="margin-top: 5rem;">
+        <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+          <div class="section-pretitle">Pairing Suggestions</div>
+          <h2 style="font-size: 1.8rem;">Recommended With This</h2>
+        </div>
+        <div class="foods-grid" id="recommended-foods-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/foods.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('mobile-drawer-toggle');
+      const drawer = document.getElementById('mobile-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      const closeBtn = document.getElementById('mobile-drawer-close');
+
+      if (toggle && drawer && overlay) {
+        toggle.addEventListener('click', () => {
+          drawer.classList.add('drawer-open');
+          overlay.classList.add('show');
+        });
+      }
+      const closeDrawer = () => {
+        drawer?.classList.remove('drawer-open');
+        overlay?.classList.remove('show');
+      };
+      closeBtn?.addEventListener('click', closeDrawer);
+      overlay?.addEventListener('click', closeDrawer);
+    });
+  </script>
+</body>
+</html>

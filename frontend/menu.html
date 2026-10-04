@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forest Menu & Delicacies | Food in Forest</title>
+  <meta name="description" content="Explore our authentic forest dining menu. Vegetarian and non-vegetarian delicacies, clay pot biryanis, bamboo chicken, tribal morning bowls, and wild herbal coolers.">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div id="loading-spinner" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="menu.html" class="nav-link active">Explore Menu</a></li>
+        <li><a href="index.html#special-offers" class="nav-link">Offers</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+
+        <div id="nav-auth-container">
+          <a href="login.html" class="btn btn-outline-forest btn-sm">Sign In</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        </div>
+
+        <button class="mobile-nav-toggle" id="mobile-drawer-toggle" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="nav-brand"><span>🌲</span> <span class="hotel-dyn-name">Food in Forest</span></div>
+      <button class="mobile-drawer-close" id="mobile-drawer-close">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li><a href="menu.html" class="mobile-nav-link active">Explore Menu</a></li>
+      <li><a href="cart.html" class="mobile-nav-link">My Cart (<span id="mobile-cart-count-badge">0</span>)</a></li>
+      <li><a href="index.html#special-offers" class="mobile-nav-link">Offers</a></li>
+      <li><a href="index.html#contact" class="mobile-nav-link">Contact</a></li>
+    </ul>
+    <div class="mobile-nav-auth" id="mobile-nav-auth"></div>
+  </div>
+
+  <!-- Menu Header Banner -->
+  <section style="background: linear-gradient(135deg, var(--color-forest-dark) 0%, var(--color-forest-deep) 100%); color: #fff; padding: 3.5rem 0 3rem 0; border-bottom: 3px solid var(--color-gold-accent);">
+    <div class="container text-center">
+      <div class="section-pretitle" style="color: var(--color-gold-accent);">Our Culinary Offerings</div>
+      <h1 style="color: #fff; margin-bottom: 0.8rem;">Woodland Menu & Specials</h1>
+      <p style="color: rgba(255,255,255,0.85); max-width: 620px; margin: 0 auto;">
+        Prepared with wild harvested herbs, stone-ground seasonings, and traditional woodfire cookery.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Menu Catalog Section -->
+  <section class="section" style="padding: 3rem 0 6rem 0;">
+    <div class="container">
+      
+      <!-- Filter and Search Controls Wrapper -->
+      <div class="menu-controls-wrapper">
+        <!-- Search bar -->
+        <div class="menu-search-bar">
+          <div class="search-input-group">
+            <span class="search-icon-inside">🔍</span>
+            <input 
+              type="text" 
+              id="menu-search-input" 
+              class="search-input-field" 
+              placeholder="Search by dish name, wild ingredient, or cooking style..." 
+              autocomplete="off"
+            >
+          </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="filter-pills-row" id="category-filter-pills">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Secondary Filters Row -->
+        <div class="menu-secondary-filters">
+          <div class="filter-group-inline">
+            <span style="font-weight: 600; font-size: 0.88rem; color: var(--color-forest-dark);">Diet:</span>
+            <div class="radio-pill-group">
+              <label class="radio-label-pill">
+                <input type="radio" name="diet-filter" value="all" checked>
+                <span>All Items</span>
+              </label>
+              <label class="radio-label-pill">
+                <input type="radio" name="diet-filter" value="veg">
+                <span>🟢 Pure Veg</span>
+              </label>
+              <label class="radio-label-pill">
+                <input type="radio" name="diet-filter" value="non-veg">
+                <span>🔴 Non-Veg</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group-inline">
+            <span style="font-weight: 600; font-size: 0.88rem; color: var(--color-forest-dark);">Price:</span>
+            <select id="price-filter-select" class="select-filter">
+              <option value="all">All Prices</option>
+              <option value="under200">Under ₹200</option>
+              <option value="200to350">₹200 - ₹350</option>
+              <option value="above350">Above ₹350</option>
+            </select>
+          </div>
+
+          <div class="filter-group-inline">
+            <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.88rem; font-weight: 600; cursor: pointer;">
+              <input type="checkbox" id="filter-available-only">
+              <span>In Stock Only</span>
+            </label>
+          </div>
+
+          <div class="filter-group-inline">
+            <span style="font-weight: 600; font-size: 0.88rem; color: var(--color-forest-dark);">Sort:</span>
+            <select id="menu-sort-select" class="select-filter">
+              <option value="featured">⭐ Signature First</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="popular">Top Rated</option>
+              <option value="newest">Newest Additions</option>
+            </select>
+          </div>
+
+          <button id="btn-reset-filters" class="btn btn-sm btn-outline-forest">Reset All</button>
+        </div>
+      </div>
+
+      <!-- Results Meta -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem;">
+        <h2 style="font-size: 1.5rem;">All Preparations</h2>
+        <span id="menu-results-count" style="font-weight: 600; color: var(--color-text-muted); font-size: 0.95rem;">Loading delicacies...</span>
+      </div>
+
+      <!-- Food Items Grid -->
+      <div class="foods-grid" id="menu-grid-container">
+        <!-- Rendered dynamically from Firebase Realtime Database -->
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/foods.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('mobile-drawer-toggle');
+      const drawer = document.getElementById('mobile-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      const closeBtn = document.getElementById('mobile-drawer-close');
+
+      if (toggle && drawer && overlay) {
+        toggle.addEventListener('click', () => {
+          drawer.classList.add('drawer-open');
+          overlay.classList.add('show');
+        });
+      }
+      const closeDrawer = () => {
+        drawer?.classList.remove('drawer-open');
+        overlay?.classList.remove('show');
+      };
+      closeBtn?.addEventListener('click', closeDrawer);
+      overlay?.addEventListener('click', closeDrawer);
+    });
+  </script>
+</body>
+</html>

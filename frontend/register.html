@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Customer Account | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body style="background: var(--color-cream-surface);">
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-outline-forest btn-sm">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Register Card Section -->
+  <div class="auth-page-wrapper">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🍃</div>
+        <h2>Create Account</h2>
+        <p>Register as a guest to order fresh forest delicacies and track your meals.</p>
+      </div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label for="reg-name">Full Name *</label>
+          <input type="text" id="reg-name" class="form-control" placeholder="e.g. Priya Nair" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email Address *</label>
+          <input type="email" id="reg-email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-phone">Phone Number *</label>
+          <input type="tel" id="reg-phone" class="form-control" placeholder="e.g. 9845012345" required autocomplete="tel">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Password (min 6 characters) *</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" data-target="reg-password" title="Show/Hide password" aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-confirm-password">Confirm Password *</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="reg-confirm-password" class="form-control" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" data-target="reg-confirm-password" title="Show/Hide password" aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+
+        <button type="submit" id="reg-submit-btn" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+          Create Account
+        </button>
+      </form>
+
+      <div class="auth-footer-links">
+        <p>Already have an account? <a href="login.html" style="font-weight: 600; color: var(--color-forest-primary);">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

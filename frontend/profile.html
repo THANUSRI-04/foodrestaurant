@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Profile | Food in Forest</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🌲</span>
+        <span class="brand-text hotel-dyn-name">Food in Forest</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="menu.html" class="nav-link">Menu</a></li>
+        <li><a href="orders.html" class="nav-link">My Orders</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-nav-btn" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-count-badge">0</span>
+        </a>
+        <div id="nav-auth-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Profile Header -->
+  <section style="background: var(--color-cream-surface); padding: 2.5rem 0; border-bottom: 1px solid var(--color-cream-border);">
+    <div class="container">
+      <h1>My Guest Profile</h1>
+      <p>Manage your contact details and default dining address.</p>
+    </div>
+  </section>
+
+  <!-- Main Profile Section -->
+  <section class="section" style="padding: 3.5rem 0 6rem 0;">
+    <div class="container" style="max-width: 760px;">
+      
+      <div style="background: var(--color-cream-card); padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--color-cream-border); box-shadow: var(--shadow-sm);">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--color-cream-border);">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2.8rem;">🌿</div>
+            <div>
+              <h3 id="profile-display-name" style="font-size: 1.3rem;">Loading Profile...</h3>
+              <p id="profile-display-email" style="font-size: 0.9rem; color: var(--color-text-muted);"></p>
+            </div>
+          </div>
+          <a href="orders.html" class="btn btn-secondary btn-sm">📦 View My Orders</a>
+        </div>
+
+        <form id="profile-form">
+          <div class="form-group">
+            <label for="profile-name">Full Name *</label>
+            <input type="text" id="profile-name" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="profile-phone">Phone Number</label>
+            <input type="tel" id="profile-phone" class="form-control" placeholder="9876543210">
+          </div>
+
+          <div class="form-group">
+            <label for="profile-address">Saved Delivery Address / Cottage</label>
+            <textarea id="profile-address" class="form-control" rows="3" placeholder="e.g. Cottage #12, Whispering Pines"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" id="profile-save-btn" class="btn btn-primary">
+              Save Profile Changes
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-logout">
+              Sign Out
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Firebase JavaScript SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.onAuthStateChanged((user, profile) => {
+        if (user) {
+          const name = (profile && profile.name) || user.email.split('@')[0];
+          document.getElementById('profile-display-name').textContent = name;
+          document.getElementById('profile-display-email').textContent = user.email;
+          document.getElementById('profile-name').value = (profile && profile.name) || '';
+          document.getElementById('profile-phone').value = (profile && profile.phone) || '';
+          document.getElementById('profile-address').value = (profile && profile.address) || '';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

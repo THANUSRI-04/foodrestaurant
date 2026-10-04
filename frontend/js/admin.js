@@ -156,29 +156,29 @@ const AdminApp = {
 
   // 4. Page Router Dispatcher
   routeAdminPage() {
-    const path = window.location.pathname.split('/').pop();
+    const rawPath = (window.location.pathname.split('/').pop() || '').replace(/\.html$/, '');
 
-    if (path === 'dashboard.html' || path === 'admin-dashboard.html' || path === '') {
-      this.initDashboard();
-    } else if (path === 'foods.html') {
-
+    // Check specific DOM IDs first (100% resilient across clean URLs and static routing)
+    if (document.getElementById('admin-foods-tbody') || rawPath === 'foods') {
       this.initFoodsManagement();
-    } else if (path === 'add-food.html') {
+    } else if (document.getElementById('add-food-form') || rawPath === 'add-food') {
       this.initAddFood();
-    } else if (path === 'edit-food.html') {
+    } else if (document.getElementById('edit-food-form') || rawPath === 'edit-food') {
       this.initEditFood();
-    } else if (path === 'categories.html') {
+    } else if (document.getElementById('admin-categories-tbody') || rawPath === 'categories') {
       this.initCategories();
-    } else if (path === 'orders.html') {
+    } else if (document.getElementById('admin-orders-tbody') || rawPath === 'orders') {
       this.initOrdersManagement();
-    } else if (path === 'customers.html') {
+    } else if (document.getElementById('admin-customers-tbody') || rawPath === 'customers') {
       this.initCustomersManagement();
-    } else if (path === 'hotel-profile.html') {
+    } else if (document.getElementById('hotel-profile-form') || rawPath === 'hotel-profile') {
       this.initHotelProfile();
-    } else if (path === 'offers.html') {
+    } else if (document.getElementById('offers-tbody') || rawPath === 'offers') {
       this.initOffersManagement();
-    } else if (path === 'settings.html') {
+    } else if (document.getElementById('btn-seed-data') || rawPath === 'settings') {
       this.initSettings();
+    } else if (document.getElementById('salesChart') || document.getElementById('stat-total-revenue') || rawPath === 'dashboard' || rawPath === 'admin-dashboard' || rawPath === '' || rawPath === 'admin') {
+      this.initDashboard();
     }
   },
 

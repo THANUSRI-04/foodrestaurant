@@ -264,16 +264,34 @@
 
   // Auto seed helper if database is fresh
   const SeedService = {
+    async _fetchSeedData() {
+      const paths = [
+        '../firebase/seed-data.json',
+        'firebase/seed-data.json',
+        '/firebase/seed-data.json',
+        '../seed-data.json',
+        'seed-data.json',
+        '/seed-data.json'
+      ];
+      for (const p of paths) {
+        try {
+          const res = await fetch(p);
+          if (res.ok) {
+            return await res.json();
+          }
+        } catch (e) {}
+      }
+      throw new Error('seed-data.json could not be loaded from any relative path');
+    },
+
     async checkAndSeed() {
       try {
         const foods = await DB.get('foods');
         if (!foods || Object.keys(foods).length === 0) {
           console.log('No food records detected in Firebase. Fetching default seed data...');
-          // Attempt to load seed-data.json from backend/firebase folder
           try {
-            const res = await fetch('/firebase/seed-data.json');
-            if (res.ok) {
-              const seedData = await res.json();
+            const seedData = await this._fetchSeedData();
+            if (seedData) {
               await database.ref().update(seedData);
               console.log('Database successfully seeded with default Food in Forest items!');
             }
@@ -288,11 +306,7 @@
 
     async forceSeed() {
       try {
-        const res = await fetch('/firebase/seed-data.json');
-        if (!res.ok) {
-          throw new Error('Could not load seed-data.json');
-        }
-        const seedData = await res.json();
+        const seedData = await this._fetchSeedData();
         await database.ref().set(seedData);
         return true;
       } catch (e) {

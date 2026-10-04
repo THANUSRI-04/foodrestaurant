@@ -220,8 +220,8 @@ const AuthService = {
       await Auth.logout();
       Toast.info('You have been logged out.');
       // If currently on a protected customer page, redirect to home
-      const protectedPages = ['profile.html', 'orders.html', 'checkout.html'];
-      const curPage = window.location.pathname.split('/').pop();
+      const protectedPages = ['profile', 'orders', 'checkout', 'profile.html', 'orders.html', 'checkout.html'];
+      const curPage = (window.location.pathname.split('/').pop() || '').toLowerCase();
       if (protectedPages.includes(curPage)) {
         setTimeout(() => {
           window.location.href = 'index.html';
@@ -300,15 +300,19 @@ const AuthService = {
   },
 
   handleProtectedRoutes() {
-    const page = window.location.pathname.split('/').pop();
-    const protectedPages = ['profile.html', 'orders.html', 'checkout.html'];
+    const rawPage = (window.location.pathname.split('/').pop() || '').toLowerCase();
+    const cleanPage = rawPage.replace(/\.html$/, '');
+    const isProtected = ['profile', 'orders', 'checkout'].includes(cleanPage) ||
+      document.getElementById('profile-form') ||
+      document.getElementById('customer-orders-container') ||
+      document.getElementById('checkout-form');
 
-    if (protectedPages.includes(page) && !this.currentUser) {
+    if (isProtected && !this.currentUser) {
       // Delay slightly to give auth state a chance to restore from session storage
       setTimeout(() => {
         if (!Auth.getCurrentUser()) {
           Toast.warning('Please sign in to view this page.');
-          window.location.href = `login.html?redirect=${encodeURIComponent(page)}`;
+          window.location.href = `login.html?redirect=${encodeURIComponent(rawPage || 'profile.html')}`;
         }
       }, 600);
     }

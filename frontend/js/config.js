@@ -4,8 +4,8 @@
  */
 
 const AppConfig = {
-  // Set your Render deployed backend URL here when available (or configure via window.BACKEND_API_URL)
-  RENDER_BACKEND_URL: 'https://food-in-forest-backend.onrender.com',
+  // Render deployed backend URL
+  RENDER_BACKEND_URL: 'https://foodrestaurant-wf24.onrender.com',
 
   // Get active API base URL
   get apiBaseUrl() {

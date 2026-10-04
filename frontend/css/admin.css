@@ -622,3 +622,77 @@ input:checked + .slider:before {
   transform: scale(1.1);
 }
 
+/* ===================================================
+   ADMIN MOBILE & TABLET RESPONSIVENESS
+   =================================================== */
+
+@media (max-width: 992px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .admin-sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-header {
+    padding: 0 1.25rem;
+    height: 64px;
+  }
+
+  .admin-toggle-btn {
+    display: inline-flex;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-dashboard-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-header {
+    padding: 0 0.85rem;
+    height: 58px;
+  }
+
+  .admin-header-title {
+    font-size: 1.05rem;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .admin-header-actions {
+    gap: 0.5rem;
+  }
+
+  .admin-user-pill span.admin-user-name {
+    display: none;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-content {
+    padding: 1rem 0.85rem;
+  }
+
+  .admin-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+

@@ -30,9 +30,26 @@
           <span class="cart-badge" id="cart-count-badge">0</span>
         </a>
         <div id="nav-auth-container"></div>
+        <button class="mobile-nav-toggle" id="mobile-drawer-toggle" aria-label="Open menu">☰</button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Drawer Navigation -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="nav-brand"><span>🌲</span> <span class="hotel-dyn-name">Food in Forest</span></div>
+      <button class="mobile-drawer-close" id="mobile-drawer-close">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li><a href="menu.html" class="mobile-nav-link">Explore Menu</a></li>
+      <li><a href="cart.html" class="mobile-nav-link">My Cart (<span id="mobile-cart-count-badge">0</span>)</a></li>
+      <li><a href="orders.html" class="mobile-nav-link">My Orders</a></li>
+    </ul>
+    <div class="mobile-nav-auth" id="mobile-nav-auth"></div>
+  </div>
 
   <!-- Checkout Header -->
   <section style="background: var(--color-cream-surface); padding: 2.5rem 0; border-bottom: 1px solid var(--color-cream-border);">
@@ -119,5 +136,28 @@
   <script src="js/auth.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/orders.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('mobile-drawer-toggle');
+      const drawer = document.getElementById('mobile-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      const closeBtn = document.getElementById('mobile-drawer-close');
+
+      if (toggle && drawer && overlay) {
+        toggle.addEventListener('click', () => {
+          drawer.classList.add('drawer-open');
+          overlay.classList.add('show');
+        });
+      }
+
+      const closeDrawer = () => {
+        drawer?.classList.remove('drawer-open');
+        overlay?.classList.remove('show');
+      };
+
+      closeBtn?.addEventListener('click', closeDrawer);
+      overlay?.addEventListener('click', closeDrawer);
+    });
+  </script>
 </body>
 </html>

@@ -556,8 +556,8 @@ const FoodService = {
       const hotel = Object.values(hotelsData)[0];
       if (!hotel) return;
 
-      // Update phone, address, email, hours across public elements if present
-      document.querySelectorAll('.hotel-dyn-name').forEach(el => el.textContent = hotel.name);
+      // Update phone, address, email, hours across public elements if present (excluding navbar brand)
+      document.querySelectorAll('.hotel-dyn-name:not(.brand-text)').forEach(el => el.textContent = hotel.name);
       document.querySelectorAll('.hotel-dyn-tagline').forEach(el => el.textContent = hotel.tagline || '');
       document.querySelectorAll('.hotel-dyn-phone').forEach(el => {
         el.textContent = hotel.phone;

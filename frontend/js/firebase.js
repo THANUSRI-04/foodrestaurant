@@ -265,7 +265,14 @@
   // Auto seed helper if database is fresh
   const SeedService = {
     async _fetchSeedData() {
+      // 1. Check if embedded seed data is available globally
+      if (typeof window !== 'undefined' && window.DEFAULT_SEED_DATA) {
+        return JSON.parse(JSON.stringify(window.DEFAULT_SEED_DATA));
+      }
+
+      // 2. Try fetching from known local and static server paths
       const paths = [
+        '../js/seed-data.js',
         '../firebase/seed-data.json',
         'firebase/seed-data.json',
         '/firebase/seed-data.json',
@@ -281,7 +288,12 @@
           }
         } catch (e) {}
       }
-      throw new Error('seed-data.json could not be loaded from any relative path');
+
+      // 3. Fallback hardcoded minimal seed if everything else fails
+      if (typeof window !== 'undefined' && window.DEFAULT_SEED_DATA) {
+        return window.DEFAULT_SEED_DATA;
+      }
+      throw new Error('Seed data could not be loaded. Please ensure js/seed-data.js is included.');
     },
 
     async checkAndSeed() {
@@ -296,7 +308,7 @@
               console.log('Database successfully seeded with default Food in Forest items!');
             }
           } catch (fetchErr) {
-            console.warn('Could not auto-fetch seed-data.json:', fetchErr);
+            console.warn('Could not auto-fetch seed data:', fetchErr);
           }
         }
       } catch (e) {
@@ -307,7 +319,10 @@
     async forceSeed() {
       try {
         const seedData = await this._fetchSeedData();
-        await database.ref().set(seedData);
+        if (!seedData) {
+          throw new Error('Seed data is empty.');
+        }
+        await database.ref().update(seedData);
         return true;
       } catch (e) {
         console.error('Force seed failed:', e);

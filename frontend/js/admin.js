@@ -175,7 +175,7 @@ const AdminApp = {
       this.initHotelProfile();
     } else if (document.getElementById('offers-tbody') || rawPath === 'offers') {
       this.initOffersManagement();
-    } else if (document.getElementById('btn-seed-data') || rawPath === 'settings') {
+    } else if (document.getElementById('btn-force-seed') || document.getElementById('btn-seed-data') || rawPath === 'settings' || rawPath.includes('settings')) {
       this.initSettings();
     } else if (document.getElementById('salesChart') || document.getElementById('stat-total-revenue') || rawPath === 'dashboard' || rawPath === 'admin-dashboard' || rawPath === '' || rawPath === 'admin') {
       this.initDashboard();
@@ -1087,23 +1087,37 @@ const AdminApp = {
 
   // 14. Settings & Data Seed (admin/settings.html)
   async initSettings() {
-    const seedBtn = document.getElementById('btn-force-seed');
+    const seedBtn = document.getElementById('btn-force-seed') || document.getElementById('btn-seed-data');
     if (seedBtn) {
-      seedBtn.addEventListener('click', async () => {
-        if (confirm('This will seed/reset dummy foods, categories, and hotel details to defaults. Proceed?')) {
+      seedBtn.onclick = async (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (confirm('This will seed/reset dummy foods, categories, and hotel details to defaults in Firebase Realtime Database. Proceed?')) {
           seedBtn.disabled = true;
-          seedBtn.innerText = 'Seeding Data...';
+          const origText = seedBtn.innerText;
+          seedBtn.innerText = 'Seeding Data to Firebase...';
           try {
+            if (typeof SeedService === 'undefined') {
+              throw new Error('SeedService is not defined. Please check if js/firebase.js is loaded.');
+            }
             await SeedService.forceSeed();
-            Toast.success('Firebase seeded with default restaurant data!');
-          } catch (e) {
-            Toast.error('Seeding error: ' + e.message);
+            if (window.Toast) {
+              Toast.success('Firebase seeded with default restaurant data!');
+            } else {
+              alert('Firebase seeded with default restaurant data!');
+            }
+          } catch (err) {
+            console.error('Seeding error:', err);
+            if (window.Toast) {
+              Toast.error('Seeding error: ' + (err.message || err));
+            } else {
+              alert('Seeding error: ' + (err.message || err));
+            }
           } finally {
             seedBtn.disabled = false;
-            seedBtn.innerText = 'Seed Default Food Data';
+            seedBtn.innerText = origText;
           }
         }
-      });
+      };
     }
   }
 };

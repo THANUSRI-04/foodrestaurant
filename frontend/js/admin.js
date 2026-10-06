@@ -351,19 +351,79 @@ const AdminApp = {
 
   // 6. Food Management Page (admin/foods.html)
   async initFoodsManagement() {
-    Utils.showLoading();
-    try {
-      const [foodsData, categoriesData] = await Promise.all([
-        DB.get('foods'),
-        DB.get('categories')
-      ]);
+    const tbody = document.getElementById('admin-foods-tbody');
+    let foods = [];
+    let categories = [];
 
-      const foods = foodsData ? Object.values(foodsData) : [];
-      const categories = categoriesData ? Object.values(categoriesData) : [];
+    const renderTable = () => {
+      if (!tbody) return;
+      const searchTerm = (document.getElementById('admin-food-search')?.value || '').toLowerCase();
+      const selectedCat = document.getElementById('admin-food-category-filter')?.value || 'all';
+      const selectedAvail = document.getElementById('admin-food-avail-filter')?.value || 'all';
 
-      // Populate Category filter
+      let filtered = foods.filter(f => {
+        const matchName = (f.name || '').toLowerCase().includes(searchTerm) || (f.description || '').toLowerCase().includes(searchTerm);
+        const matchCat = (selectedCat === 'all' || f.categoryId === selectedCat);
+        const matchAvail = (selectedAvail === 'all' || (selectedAvail === '1' && f.available !== false) || (selectedAvail === '0' && f.available === false));
+        return matchName && matchCat && matchAvail;
+      });
+
+      if (filtered.length === 0) {
+        if (foods.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" class="text-center" style="padding: 2.5rem 1rem;">
+                <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No food items in database yet</div>
+                <div style="color: var(--color-text-muted); margin-bottom: 1rem;">Seed default forest cuisine items or add your first specialty dish.</div>
+                <a href="settings.html" class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;">🌱 Go to Database Seeder</a>
+                <a href="add-food.html" class="btn btn-primary btn-sm">+ Add Food Item</a>
+              </td>
+            </tr>`;
+        } else {
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted" style="padding: 2rem;">No foods found matching the search/filter criteria.</td></tr>';
+        }
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(food => `
+        <tr data-id="${food.id}">
+          <td>
+            <img src="${Utils.escapeHtml(food.image || Utils.getFoodFallbackImage())}" alt="${Utils.escapeHtml(food.name)}" class="admin-table-thumb" onerror="this.src='${Utils.getFoodFallbackImage()}'">
+          </td>
+          <td>
+            <strong>${Utils.escapeHtml(food.name)}</strong>
+            <div>${Utils.getDietIndicatorHtml(food.veg)} ${food.spicy ? Utils.getSpiceIndicatorHtml(true) : ''}</div>
+          </td>
+          <td>${Utils.escapeHtml(food.categoryName || food.categoryId || '')}</td>
+          <td>${Utils.formatCurrency(food.price)}</td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" class="toggle-food-avail" data-id="${food.id}" ${food.available !== false ? 'checked' : ''}>
+              <span class="slider round"></span>
+            </label>
+            <small class="d-block">${food.available !== false ? 'Available' : 'Disabled'}</small>
+          </td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" class="toggle-food-featured" data-id="${food.id}" ${food.featured ? 'checked' : ''}>
+              <span class="slider round"></span>
+            </label>
+            <small class="d-block">${food.featured ? '⭐ Featured' : 'Normal'}</small>
+          </td>
+          <td>
+            <div class="admin-table-actions">
+              <a href="edit-food.html?id=${encodeURIComponent(food.id)}" class="btn btn-xs btn-outline-forest">Edit</a>
+              <button class="btn btn-xs btn-outline-danger btn-delete-food" data-id="${food.id}" data-name="${Utils.escapeHtml(food.name)}">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    };
+
+    const updateCategoriesDropdown = () => {
       const catSelect = document.getElementById('admin-food-category-filter');
-      if (catSelect) {
+      if (catSelect && categories.length > 0) {
+        catSelect.innerHTML = '<option value="all">All Categories</option>';
         categories.forEach(cat => {
           const opt = document.createElement('option');
           opt.value = cat.id;
@@ -371,101 +431,73 @@ const AdminApp = {
           catSelect.appendChild(opt);
         });
       }
+    };
 
-      const renderTable = () => {
-        const searchTerm = (document.getElementById('admin-food-search')?.value || '').toLowerCase();
-        const selectedCat = document.getElementById('admin-food-category-filter')?.value || 'all';
-        const selectedAvail = document.getElementById('admin-food-avail-filter')?.value || 'all';
+    // Attach search & filter listeners once
+    document.getElementById('admin-food-search')?.addEventListener('input', renderTable);
+    document.getElementById('admin-food-category-filter')?.addEventListener('change', renderTable);
+    document.getElementById('admin-food-avail-filter')?.addEventListener('change', renderTable);
 
-        let filtered = foods.filter(f => {
-          const matchName = (f.name || '').toLowerCase().includes(searchTerm) || (f.description || '').toLowerCase().includes(searchTerm);
-          const matchCat = (selectedCat === 'all' || f.categoryId === selectedCat);
-          const matchAvail = (selectedAvail === 'all' || (selectedAvail === '1' && f.available !== false) || (selectedAvail === '0' && f.available === false));
-          return matchName && matchCat && matchAvail;
-        });
+    // Delegate Toggle & Delete events
+    tbody?.addEventListener('change', async (e) => {
+      if (e.target.matches('.toggle-food-avail')) {
+        const id = e.target.getAttribute('data-id');
+        const isAvail = e.target.checked;
+        await DB.update(`foods/${id}`, { available: isAvail });
+        Toast.success(`Updated availability status.`);
+      }
+      if (e.target.matches('.toggle-food-featured')) {
+        const id = e.target.getAttribute('data-id');
+        const isFeat = e.target.checked;
+        await DB.update(`foods/${id}`, { featured: isFeat });
+        Toast.success(`Updated featured status.`);
+      }
+    });
 
-        const tbody = document.getElementById('admin-foods-tbody');
-        if (!tbody) return;
-
-        if (filtered.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No foods found matching criteria.</td></tr>';
-          return;
+    tbody?.addEventListener('click', async (e) => {
+      if (e.target.matches('.btn-delete-food')) {
+        const id = e.target.getAttribute('data-id');
+        const name = e.target.getAttribute('data-name');
+        if (confirm(`Are you sure you want to delete "${name}"?\nThis action cannot be undone.`)) {
+          await DB.remove(`foods/${id}`);
+          Toast.success(`"${name}" deleted successfully.`);
         }
+      }
+    });
 
-        tbody.innerHTML = filtered.map(food => `
-          <tr data-id="${food.id}">
-            <td>
-              <img src="${Utils.escapeHtml(food.image || Utils.getFoodFallbackImage())}" alt="${Utils.escapeHtml(food.name)}" class="admin-table-thumb" onerror="this.src='${Utils.getFoodFallbackImage()}'">
-            </td>
-            <td>
-              <strong>${Utils.escapeHtml(food.name)}</strong>
-              <div>${Utils.getDietIndicatorHtml(food.veg)} ${food.spicy ? Utils.getSpiceIndicatorHtml(true) : ''}</div>
-            </td>
-            <td>${Utils.escapeHtml(food.categoryName || food.categoryId || '')}</td>
-            <td>${Utils.formatCurrency(food.price)}</td>
-            <td>
-              <label class="switch">
-                <input type="checkbox" class="toggle-food-avail" data-id="${food.id}" ${food.available !== false ? 'checked' : ''}>
-                <span class="slider round"></span>
-              </label>
-              <small class="d-block">${food.available !== false ? 'Available' : 'Disabled'}</small>
-            </td>
-            <td>
-              <label class="switch">
-                <input type="checkbox" class="toggle-food-featured" data-id="${food.id}" ${food.featured ? 'checked' : ''}>
-                <span class="slider round"></span>
-              </label>
-              <small class="d-block">${food.featured ? '⭐ Featured' : 'Normal'}</small>
-            </td>
-            <td>
-              <div class="admin-table-actions">
-                <a href="edit-food.html?id=${encodeURIComponent(food.id)}" class="btn btn-xs btn-outline-forest">Edit</a>
-                <button class="btn btn-xs btn-outline-danger btn-delete-food" data-id="${food.id}" data-name="${Utils.escapeHtml(food.name)}">Delete</button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
-      };
+    // 1. Initial Quick Fetch
+    try {
+      const [foodsData, categoriesData] = await Promise.all([
+        DB.get('foods'),
+        DB.get('categories')
+      ]);
 
-      // Search & Filter change listeners
-      document.getElementById('admin-food-search')?.addEventListener('input', renderTable);
-      document.getElementById('admin-food-category-filter')?.addEventListener('change', renderTable);
-      document.getElementById('admin-food-avail-filter')?.addEventListener('change', renderTable);
+      foods = foodsData ? (Array.isArray(foodsData) ? foodsData : Object.values(foodsData)) : [];
+      categories = categoriesData ? (Array.isArray(categoriesData) ? categoriesData : Object.values(categoriesData)) : [];
 
-      // Delegate Toggle & Delete events
-      document.getElementById('admin-foods-tbody')?.addEventListener('change', async (e) => {
-        if (e.target.matches('.toggle-food-avail')) {
-          const id = e.target.getAttribute('data-id');
-          const isAvail = e.target.checked;
-          await DB.update(`foods/${id}`, { available: isAvail });
-          Toast.success(`Updated availability for item.`);
-        }
-        if (e.target.matches('.toggle-food-featured')) {
-          const id = e.target.getAttribute('data-id');
-          const isFeat = e.target.checked;
-          await DB.update(`foods/${id}`, { featured: isFeat });
-          Toast.success(`Updated featured status.`);
-        }
-      });
-
-      document.getElementById('admin-foods-tbody')?.addEventListener('click', async (e) => {
-        if (e.target.matches('.btn-delete-food')) {
-          const id = e.target.getAttribute('data-id');
-          const name = e.target.getAttribute('data-name');
-          if (confirm(`Are you sure you want to delete "${name}"?\nThis action cannot be undone.`)) {
-            await DB.remove(`foods/${id}`);
-            Toast.success(`"${name}" deleted successfully.`);
-            setTimeout(() => location.reload(), 500);
-          }
-        }
-      });
-
+      updateCategoriesDropdown();
       renderTable();
     } catch (e) {
-      console.error('Error loading foods in admin:', e);
-    } finally {
-      Utils.hideLoading();
+      console.warn('Initial foods fetch notice:', e);
     }
+
+    // 2. Real-time Firebase Listener for Live Sync
+    DB.listen('foods', (liveFoods) => {
+      if (liveFoods) {
+        foods = Array.isArray(liveFoods) ? liveFoods : Object.values(liveFoods);
+      } else {
+        foods = [];
+      }
+      renderTable();
+    });
+
+    DB.listen('categories', (liveCats) => {
+      if (liveCats) {
+        categories = Array.isArray(liveCats) ? liveCats : Object.values(liveCats);
+        updateCategoriesDropdown();
+        renderTable();
+      }
+    });
   },
 
   // 7. Add Food (admin/add-food.html)

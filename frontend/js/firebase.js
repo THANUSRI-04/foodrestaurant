@@ -29,14 +29,45 @@
       return database.ref(path);
     },
 
-    // Read once
+    // Read once with WebSocket + REST fallback
     async get(path) {
+      const cleanPath = path.replace(/^\/+|\/+$/g, '');
+      const getRestUrl = () => {
+        const base = (typeof firebaseConfig !== 'undefined' && firebaseConfig.databaseURL)
+          ? firebaseConfig.databaseURL.replace(/\/+$/, '')
+          : 'https://food-in-forest-default-rtdb.firebaseio.com';
+        return `${base}/${cleanPath}.json`;
+      };
+
       try {
-        const snapshot = await database.ref(path).once('value');
-        return snapshot.val();
-      } catch (error) {
-        console.error(`Error reading ${path}:`, error);
-        throw error;
+        const rtdbPromise = database.ref(cleanPath).once('value').then(snap => snap.val());
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('RTDB WebSocket timeout')), 3000)
+        );
+        return await Promise.race([rtdbPromise, timeoutPromise]);
+      } catch (wsErr) {
+        // Fallback directly to HTTP REST call
+        try {
+          const res = await fetch(getRestUrl());
+          if (res.ok) {
+            return await res.json();
+          }
+        } catch (fetchErr) {
+          console.warn(`[Firebase] REST fallback failed for '${path}':`, fetchErr.message);
+        }
+
+        // Ultimate fallback to embedded seed data for standard catalogs
+        if (typeof window !== 'undefined' && window.DEFAULT_SEED_DATA) {
+          const rootKey = cleanPath.split('/')[0];
+          const subKey = cleanPath.split('/')[1];
+          if (rootKey && window.DEFAULT_SEED_DATA[rootKey]) {
+            if (subKey) {
+              return window.DEFAULT_SEED_DATA[rootKey][subKey] || null;
+            }
+            return window.DEFAULT_SEED_DATA[rootKey];
+          }
+        }
+        return null;
       }
     },
 

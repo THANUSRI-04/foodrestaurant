@@ -48,13 +48,34 @@ def create_app():
         
     @app.route('/<path:filename>')
     def serve_frontend(filename):
-        target_path = os.path.join(frontend_dir, filename)
+        # Normalize admin sub-paths for static assets
+        clean_filename = filename
+        if filename.startswith('admin/js/'):
+            clean_filename = filename[len('admin/'):]
+        elif filename.startswith('admin/css/'):
+            clean_filename = filename[len('admin/'):]
+        elif filename.startswith('admin/assets/'):
+            clean_filename = filename[len('admin/'):]
+
+        target_path = os.path.join(frontend_dir, clean_filename)
         if os.path.exists(target_path) and not os.path.isdir(target_path):
-            return send_from_directory(frontend_dir, filename)
+            return send_from_directory(frontend_dir, clean_filename)
+
         # Check if it corresponds to an HTML file without extension
         html_candidate = target_path + '.html'
         if os.path.exists(html_candidate):
-            return send_from_directory(frontend_dir, filename + '.html')
+            return send_from_directory(frontend_dir, clean_filename + '.html')
+
+        if filename == 'admin' or filename == 'admin/':
+            admin_dash = os.path.join(frontend_dir, 'admin', 'dashboard.html')
+            if os.path.exists(admin_dash):
+                return send_from_directory(os.path.join(frontend_dir, 'admin'), 'dashboard.html')
+
+        # If requesting static file extensions, don't fallback to HTML
+        static_exts = ('.js', '.css', '.png', '.jpg', '.jpeg', '.svg', '.ico', '.json', '.webp', '.woff', '.woff2', '.ttf')
+        if filename.endswith(static_exts):
+            return jsonify({"error": f"Static asset '{filename}' not found", "status": 404}), 404
+
         if os.path.exists(os.path.join(frontend_dir, 'index.html')):
             return send_from_directory(frontend_dir, 'index.html')
         return jsonify({"error": "Resource not found", "status": 404}), 404

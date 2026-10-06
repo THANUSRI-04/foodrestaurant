@@ -176,16 +176,45 @@
         
         <!-- Database Seeding Card -->
         <div class="admin-card" style="max-width: 820px;">
-          <div class="admin-card-header">
+          <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <h3>🌱 Seed Dummy Forest Cuisine &amp; Demo Data</h3>
+            <span id="db-status-pill" class="badge badge-success" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Checking Database...</span>
           </div>
-          <p style="margin-bottom: 1.5rem; color: var(--color-text-muted);">
+          <p style="margin-bottom: 1.25rem; color: var(--color-text-muted); line-height: 1.6;">
             Populate your Firebase Realtime Database with 14+ realistic mountain specialties, 7 categories, active promotional offers, sample customer orders, and eco-resort profile information.
           </p>
 
-          <button id="btn-force-seed" class="btn btn-secondary btn-lg">
-            Seed Default Food Data to Firebase
+          <!-- Live DB Stats Counters -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem;">
+            <div style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 8px;">
+              <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Foods in DB</span>
+              <div id="stat-count-foods" style="font-size: 1.3rem; font-weight: 700; color: var(--color-primary-light);">...</div>
+            </div>
+            <div style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 8px;">
+              <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Categories</span>
+              <div id="stat-count-categories" style="font-size: 1.3rem; font-weight: 700; color: var(--color-primary-light);">...</div>
+            </div>
+            <div style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 8px;">
+              <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Promo Offers</span>
+              <div id="stat-count-offers" style="font-size: 1.3rem; font-weight: 700; color: var(--color-primary-light);">...</div>
+            </div>
+            <div style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 8px;">
+              <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Orders</span>
+              <div id="stat-count-orders" style="font-size: 1.3rem; font-weight: 700; color: var(--color-primary-light);">...</div>
+            </div>
+          </div>
+
+          <button id="btn-force-seed" class="btn btn-secondary btn-lg" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+            <span>🚀 Seed Default Food Data to Firebase</span>
           </button>
+
+          <!-- Live Progress Box -->
+          <div id="seed-progress-box" style="display: none; margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: 8px; background: rgba(46, 125, 50, 0.12); border: 1px solid rgba(46, 125, 50, 0.4);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-weight: 600;" id="seed-progress-text">
+              <span class="spinner" style="width: 18px; height: 18px; border-width: 2px;"></span>
+              Seeding data to Firebase...
+            </div>
+          </div>
         </div>
 
         <!-- Admin Account Setup Helper -->
@@ -221,5 +250,116 @@
   <script src="../js/firebase.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/admin.js"></script>
+
+  <!-- Instant Seed Action Handler -->
+  <script>
+    (function() {
+      async function refreshLiveStats() {
+        try {
+          if (!window.DB) return;
+          const [foods, categories, offers, orders] = await Promise.all([
+            DB.get('foods').catch(() => null),
+            DB.get('categories').catch(() => null),
+            DB.get('offers').catch(() => null),
+            DB.get('orders').catch(() => null)
+          ]);
+
+          const foodCount = foods ? Object.keys(foods).length : 0;
+          const catCount = categories ? Object.keys(categories).length : 0;
+          const offerCount = offers ? Object.keys(offers).length : 0;
+          const orderCount = orders ? Object.keys(orders).length : 0;
+
+          const fEl = document.getElementById('stat-count-foods');
+          const cEl = document.getElementById('stat-count-categories');
+          const oEl = document.getElementById('stat-count-offers');
+          const ordEl = document.getElementById('stat-count-orders');
+          const pill = document.getElementById('db-status-pill');
+
+          if (fEl) fEl.textContent = foodCount;
+          if (cEl) cEl.textContent = catCount;
+          if (oEl) oEl.textContent = offerCount;
+          if (ordEl) ordEl.textContent = orderCount;
+
+          if (pill) {
+            if (foodCount > 0) {
+              pill.className = 'badge badge-success';
+              pill.textContent = '🟢 Online & Seeded (' + foodCount + ' items)';
+            } else {
+              pill.className = 'badge badge-warning';
+              pill.textContent = '🟡 Empty Database';
+            }
+          }
+        } catch (e) {
+          console.warn('Stats check error:', e);
+        }
+      }
+
+      function setupSeedButton() {
+        const btn = document.getElementById('btn-force-seed');
+        const progressBox = document.getElementById('seed-progress-box');
+        const progressText = document.getElementById('seed-progress-text');
+        if (!btn) return;
+
+        btn.onclick = async function(e) {
+          e.preventDefault();
+          btn.disabled = true;
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px;display:inline-block;vertical-align:middle;margin-right:6px;"></span> Seeding Firebase...';
+
+          if (progressBox) progressBox.style.display = 'block';
+          if (progressText) progressText.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;"></span> Connecting to Firebase Realtime Database...';
+
+          try {
+            if (!window.SeedService) {
+              throw new Error('SeedService is initializing. Please try again in a moment.');
+            }
+
+            await window.SeedService.forceSeed(function(msg) {
+              if (progressText) {
+                progressText.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;"></span> ' + msg;
+              }
+            });
+
+            if (progressBox) {
+              progressBox.style.background = 'rgba(46, 125, 50, 0.2)';
+              progressBox.style.borderColor = 'rgba(46, 125, 50, 0.6)';
+            }
+            if (progressText) {
+              progressText.innerHTML = '✅ <strong>Seeding Complete!</strong> 14 dishes, 7 categories, and resort info are now live in Firebase.';
+            }
+
+            if (window.Toast) {
+              Toast.success('Firebase seeded with 14 dishes & 7 categories!');
+            }
+
+            await refreshLiveStats();
+          } catch (err) {
+            console.error('Seed execution error:', err);
+            if (progressBox) {
+              progressBox.style.background = 'rgba(211, 47, 47, 0.15)';
+              progressBox.style.borderColor = 'rgba(211, 47, 47, 0.5)';
+            }
+            if (progressText) {
+              progressText.innerHTML = '❌ <strong>Error:</strong> ' + (err.message || err);
+            }
+            if (window.Toast) {
+              Toast.error('Seeding failed: ' + (err.message || err));
+            }
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+          }
+        };
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        setupSeedButton();
+        setTimeout(refreshLiveStats, 600);
+      });
+      // Also run immediately if script executed after DOM
+      setupSeedButton();
+      setTimeout(refreshLiveStats, 800);
+    })();
+  </script>
 </body>
 </html>

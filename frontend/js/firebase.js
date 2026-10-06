@@ -316,13 +316,43 @@
       }
     },
 
-    async forceSeed() {
+    async forceSeed(onProgress) {
       try {
         const seedData = await this._fetchSeedData();
         if (!seedData) {
-          throw new Error('Seed data is empty.');
+          throw new Error('Seed data is empty or could not be loaded.');
         }
-        await database.ref().update(seedData);
+
+        const report = (msg) => {
+          if (typeof onProgress === 'function') onProgress(msg);
+          console.log('[SeedService]', msg);
+        };
+
+        report('Uploading 7 food categories...');
+        if (seedData.categories) await database.ref('categories').set(seedData.categories);
+
+        report('Uploading 14+ forest dishes...');
+        if (seedData.foods) await database.ref('foods').set(seedData.foods);
+
+        report('Uploading eco-resort profile...');
+        if (seedData.hotels) await database.ref('hotels').set(seedData.hotels);
+
+        report('Uploading promotional offers...');
+        if (seedData.offers) await database.ref('offers').set(seedData.offers);
+
+        report('Uploading restaurant settings...');
+        if (seedData.settings) await database.ref('settings').set(seedData.settings);
+
+        // Ensure default admin user is present
+        report('Configuring admin authorization...');
+        const existingUsers = await DB.get('users');
+        if (!existingUsers || Object.keys(existingUsers).length === 0) {
+          if (seedData.users) await database.ref('users').set(seedData.users);
+        } else if (seedData.users && seedData.users['admin-user-001']) {
+          await database.ref('users/admin-user-001').set(seedData.users['admin-user-001']);
+        }
+
+        report('Database successfully seeded!');
         return true;
       } catch (e) {
         console.error('Force seed failed:', e);
